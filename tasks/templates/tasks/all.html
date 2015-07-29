@@ -3,4 +3,8 @@
 {% block content %}
     <p>Your tasks:</p>
 	
+	{% for task in tasks %}
+	    <p>{{task.task_name}}</p>
+	{% endfor %}
+	
 {% endblock %}
