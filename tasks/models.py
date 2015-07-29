@@ -1,10 +1,11 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 class Task(models.Model):
     task_name = models.CharField(max_length=400)
     create_date = models.DateTimeField('date created')
-    #user = models.ForeignKey(User)
+    user = models.ForeignKey(User)
     completed = models.BooleanField(default=False)
     for_today = models.BooleanField(default=False)
     due_date = models.DateTimeField('due date', null=True, blank=True)
