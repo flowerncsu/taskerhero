@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+<head>
+<title>Task Hero</title>
+
+<style type="text/css">
+    body {
+	    margin:0;
+		height:100%;
+	}
+	
+	container {
+	}
+	
+	h1 {
+	    margin:0;
+		font-size:60px;
+		font-weight:700;
+		text-align:center;
+	}
+	
+	h2 {
+	    margin:0;
+		font-size:20px;
+		text-align:center;
+	}
+
+    #topbar {
+	    background-color:#5882FA;
+		width:100%;
+		height: 150px;
+		font-family: Arial, Helvetica, sans-serif;
+	}
+	
+	#left_header_block {
+	    width:200px;
+		height:150px;
+		float:left;
+	}
+	#left_header_block img {
+	    max-height:100%;
+		padding-left:25px;
+		padding-left:25px;
+	}
+	
+	#header_content {
+	    padding-left: 170px;
+		padding-top: 20px;
+		float:left;
+	}
+	
+	#sidebar {
+	    background-color:#29088A;
+		width:200px;
+		height:1000px;
+		float:left;
+		color:white;
+	}
+	
+	#user_info {
+	    float:right;
+		padding-right:10px;
+		text-align:right;
+	}
+	
+	ul {
+	    margin:0;
+		padding:0;
+	}
+	
+	li {
+	    list-style-type: none;
+		margin:10px;
+		padding:5px;
+		border: 5px inset #280B61;
+		text-align:center;
+	}
+	
+	.clear {
+	    clear:both;
+	}
+	
+</style>
+</head>
+
+<body>
+
+<div id="container">
+
+   <div id="topbar">
+       <div id="left_header_block">
+	   <img src="images/crossedswords.png">
+	   </div>
+	   
+	   <div id="header_content">
+           <h1>Task Hero</h1>
+	       <h2>Level up in life!</h2>
+	   </div>
+	   
+	   <div id="user_info">
+	       <p>Username</p>
+		   <p>Level 1</p>
+	   </div>
+   </div>
+   <div class="clear"></div>
+   <div id="sidebar">
+       <ul>
+	       <li>Today's Quest</li>
+		   <li>All Tasks</li>
+		   <li>My Items</li>
+		   <li>My Party</li>
+   </div>
+   <div>{% block content %}}{% endblock %}</div>
+   
+</div>
+
+</body>
+</html>
