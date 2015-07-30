@@ -1,10 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
     <p>Your tasks:</p>
+	<form action="{% url 'tasks.views.all' %}" method="post">
+	{% csrf_token %}
+	<input type="submit" value="Save" />
 	
+	<table>
+	<tr><th>Task</th><th>Completed</th></tr>
+	<tr><td><input type="text" name="new_task" placeholder="Add a new task" /></td></tr>
 	{% for task in tasks %}
-	    <p>{{task.task_name}}</p>
+	    <tr>
+			<td>{{task.task_name}}</td>
+			<td>
+			<input type="checkbox" name="completed"
+				   value="{{task.pk}}" />
+			</td>
+		</tr>
 	{% endfor %}
-	
+	</table>
+	<input type="submit" value="Save" />
+	</form>
 {% endblock %}
