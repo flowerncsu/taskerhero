@@ -31,4 +31,4 @@ class Task(models.Model):
         if self.for_today:
             xp *= (0.2 * base_xp)
         # later, add priority levels: low = no bonus xp, med = +10% base_xp, high = +20% base_xp
-        return floor(xp)
+        return math.floor(xp)
