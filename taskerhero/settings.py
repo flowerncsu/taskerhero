@@ -37,7 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tasks'
+    'tasks',
+    'userprofile',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -58,7 +59,8 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             'taskerhero/templates',
-            'tasks/templates'
+            'tasks/templates',
+            'userprofile/templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
