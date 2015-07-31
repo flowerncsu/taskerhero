@@ -18,5 +18,5 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.all),
-    url(r'^test$', views.test),
+    url(r'^today$', views.today),
 ]

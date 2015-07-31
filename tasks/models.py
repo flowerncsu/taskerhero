@@ -8,8 +8,9 @@ class Task(models.Model):
     create_date = models.DateTimeField('date created',default=timezone.now())
     user = models.ForeignKey(User)
     completed = models.BooleanField(default=False)
+    completed_date = models.DateTimeField(null=True, blank=True)
     for_today = models.BooleanField(default=False)
-    due_date = models.DateTimeField('due date', null=True, blank=True)
+    due_date = models.DateTimeField(null=True, blank=True)
     repeating = models.BooleanField(default=False)
     # set repeat interval
     # set repeat type
@@ -23,12 +24,13 @@ class Task(models.Model):
     def get_xp(self):
         # Get the number of days ago that the task was created
         age = (timezone.now() - self.create_date).days
-        # xp function is not based on any brilliant mathematical theory.
+        # base_xp function is not based on any brilliant mathematical theory.
         # I just threw equations at a graphing calculator until I found a
         # curve that I thought seemed good. So there's room for improvement.
-        base_xp = math.log((age+1.5)**4, 2)
+        base_xp = math.log((age+1.5)**2, 2)
         xp = base_xp
         if self.for_today:
             xp *= (0.2 * base_xp)
-        # later, add priority levels: low = no bonus xp, med = +10% base_xp, high = +20% base_xp
+        # todo, add priority levels: low = no bonus xp, med = +10% base_xp, high = +20% base_xp
         return math.floor(xp)
+    

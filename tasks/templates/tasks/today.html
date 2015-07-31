@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    <h3>Today's Quest:</h3>
+	{% if more_tasks_needed %}
+	    <br><h4>Note: You need more tasks on your list to complete today's quest! 
+		<a href={% url 'tasks.views.all' %}>Add more.</a></h4>
+	{% endif %}
+	
+	<form action="{% url 'tasks.views.today' %}" method="post">
+	{% csrf_token %}
+	
+	<table>
+	<tr><th>Task</th><th>Completed</th></tr>
+	{% for task in tasks %}
+	    <tr>
+			<td>{{task.task_name}}</td>
+			<td>
+			<input type="checkbox" name="completed"
+				   value="{{task.pk}}" />
+			</td>
+		</tr>
+	{% endfor %}
+	<tr><td><input type="text" name="new_today_task" placeholder="Add a new task" /></td></tr>
+	</table>
+	<input type="submit" value="Save" />
+	</form>
+{% endblock %}
