@@ -27,7 +27,7 @@ class Task(models.Model):
         # base_xp function is not based on any brilliant mathematical theory.
         # I just threw equations at a graphing calculator until I found a
         # curve that I thought seemed good. So there's room for improvement.
-        base_xp = math.log((age+1.5)**2, 2)
+        base_xp = math.log((age+1.5)**4, 2)
         xp = base_xp
         if self.for_today:
             xp *= (0.2 * base_xp)

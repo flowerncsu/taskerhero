@@ -29,6 +29,10 @@
 	    font-size: 40px;
 	}
 
+	a {
+	    color:white;
+	}
+
     #topbar {
 	    background-color:#5882FA;
 		width:100%;
@@ -86,6 +90,7 @@
 	
 	th {
 	    text-align:left;
+		padding:8px;
 	}
 	
 </style>
@@ -112,11 +117,14 @@
    </div>
    <div class="clear"></div>
    <div id="sidebar">
-       <ul>
-	       <li>Today's Quest</li>
-		   <li>All Tasks</li>
-		   <li>My Items</li>
+		   <a href="{% url 'tasks.views.today' %}">
+	       <li>Today's Quest</li></a>
+	       <a href="{% url 'tasks.views.all' %}">
+		   <li>All Tasks</li></a>
+	       <a href="{% url 'userprofile.views.userhome' %}">
+		   <li>My Items</li></a>
 		   <li>My Party</li>
+   </div>
    </div>
    <div>{% block content %}}{% endblock %}</div>
    

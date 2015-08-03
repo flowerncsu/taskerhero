@@ -2,19 +2,23 @@
 
 {% block content %}
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-    <h3>Today's Quest:</h3>
-	{% if more_tasks_needed %}
-	    <br><h4>Note: You need more tasks on your list to complete today's quest! 
-		<a href={% url 'tasks.views.all' %}>Add more.</a></h4>
+	{% if status = 'complete'%}
+	    <h3>You have completed today's quest! Come back tomorrow for another.</h3>
+	{% else %}
+		<h3>Today's Quest:</h3>
+		{% if status = 'need more' %}
+			<h4>Note: You need more tasks on your list to complete today's quest! 
+			<a href={% url 'tasks.views.all' %}>Add more.</a></h4>
+		{% endif %}
 	{% endif %}
-	
+		
 	<form action="{% url 'tasks.views.today' %}" method="post">
 	{% csrf_token %}
-	
+		
 	<table>
 	<tr><th>Task</th><th>Completed</th></tr>
 	{% for task in tasks %}
-	    <tr>
+		<tr>
 			<td>{{task.task_name}}</td>
 			<td>
 			<input type="checkbox" name="completed"
