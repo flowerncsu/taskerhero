@@ -19,14 +19,14 @@
 	<tr><th>Task</th><th>Completed</th></tr>
 	{% for task in tasks %}
 		<tr>
-			<td>{{task.task_name}}</td>
+			<td width="400px">{{task.task_name}}</td>
 			<td>
 			<input type="checkbox" name="completed"
 				   value="{{task.pk}}" />
 			</td>
 		</tr>
 	{% endfor %}
-	<tr><td><input type="text" name="new_today_task" placeholder="Add a new task" /></td></tr>
+	<tr><td><input type="text" name="new_today_task" placeholder="Quick Add" size="60" /></td></tr>
 	</table>
 	<input type="submit" value="Save" />
 	</form>

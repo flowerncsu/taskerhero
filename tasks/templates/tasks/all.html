@@ -9,10 +9,10 @@
 	
 	<table>
 	<tr><th>Task</th><th>Completed</th><th>Current<br>Quest</th></tr>
-	<tr><td><input type="text" name="new_task" placeholder="Add a new task" /></td></tr>
+	<tr><td><input type="text" name="new_task" placeholder="Quick Add" size="60" /></td></tr>
 	{% for task in tasks %}
 	    <tr>
-			<td>{{task.task_name}}</td>
+			<td width="400px">{{task.task_name}}</td>
 			<td align=center>
 			<input type="checkbox" name="completed" value="{{task.pk}}" />
 			</td>
