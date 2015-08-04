@@ -8,9 +8,9 @@ class Task(models.Model):
     create_date = models.DateTimeField('date created',default=timezone.now())
     user = models.ForeignKey(User)
     completed = models.BooleanField(default=False)
-    completed_date = models.DateTimeField(null=True, blank=True)
+    completed_date = models.DateField(null=True, blank=True)
     for_today = models.BooleanField(default=False)
-    due_date = models.DateTimeField(null=True, blank=True)
+    due_date = models.DateField(null=True, blank=True)
     repeating = models.BooleanField(default=False)
     # set repeat interval
     # set repeat type

@@ -7,7 +7,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
     xp = models.IntegerField(default=0)
     level = models.IntegerField(default=1)
-    quest_update = models.DateTimeField('date quest xp last updated', default=timezone.now())
+    quest_update = models.DateField('date quest xp last updated', default=timezone.now().date())
     quest_xp = models.IntegerField("today's xp", default=0)
     def __str__(self):
         return self.user.username

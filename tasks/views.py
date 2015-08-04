@@ -60,7 +60,7 @@ def update_tasks(request):
 
 def update_quest(profile):
     profile.quest_xp = 0
-    profile.quest_update = timezone.now()
+    profile.quest_update = timezone.now().date()
     profile.save()
 
 @login_required
@@ -73,7 +73,7 @@ def all(request):
 def today(request):
     # reset quest if it hasn't been reset today
     profile = UserProfile.objects.get(user = request.user)
-    if (timezone.now() - profile.quest_update).days >0:
+    if (timezone.now().date() - profile.quest_update).days >0:
         update_quest(profile)
     update_tasks(request)
     tasks = Task.objects.filter(user=request.user, for_today=True, completed=False)
