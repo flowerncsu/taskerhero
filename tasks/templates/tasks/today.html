@@ -19,7 +19,8 @@
 	<tr><th>Task</th><th>Completed</th></tr>
 	{% for task in tasks %}
 		<tr>
-			<td width="400px">{{task.task_name}}</td>
+			<td width="400px"><a href="{% url 'tasks.views.detail' task.pk %}">
+				{{task.task_name}}</a></td>
 			<td>
 			<input type="checkbox" name="completed"
 				   value="{{task.pk}}" />

@@ -19,4 +19,6 @@ from . import views
 urlpatterns = [
     url(r'^$', views.all),
     url(r'^today$', views.today),
+    url(r'^([0-9]+)', views.detail),
+    url(r'^save$', views.savetask)
 ]

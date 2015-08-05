@@ -2,9 +2,10 @@ from django.shortcuts import render
 from .models import Task
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden, Http404
 from django.utils import timezone
 from userprofile.models import UserProfile
+from django.forms import ModelForm
 
 def update_tasks(request):
     for pk in request.POST.getlist('completed'):
@@ -93,5 +94,32 @@ def today(request):
     return render(request, 'tasks/today.html', {'tasks': tasks,
                                                 'remaining_xp': remaining_xp,
                                                 'status': quest_status})
-    
-    
+
+class TaskDetailForm(ModelForm):
+    class Meta:
+        model = Task
+        fields = ['task_name', 'for_today', 'due_date']
+
+@login_required
+def detail(request,pk):
+    try:
+        task = Task.objects.get(pk=pk)
+    except Task.DoesNotExist:
+        raise Http404
+    if task.user != request.user:
+        raise HttpResponseForbidden
+    else:
+        formdata = TaskDetailForm(request.POST, instance = task)
+        if formdata.is_valid():
+            formdata.instance.user = request.user
+            formdata.save()
+        form = TaskDetailForm(instance = task)
+        return render(request, 'tasks/detail.html', {'form': form, 'pk': task.pk})
+
+def savetask(request):
+    formdata = TaskDetailForm(request.POST)
+    if formdata.is_valid():
+        formdata.instance.user = request.user
+        formdata.save()
+        all(request)
+
