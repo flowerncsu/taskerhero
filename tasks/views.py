@@ -7,6 +7,8 @@ from django.utils import timezone
 from userprofile.models import UserProfile
 from django.forms import ModelForm
 
+TABLE_BG_COLORS = {0:'#FBF2EF', 1:'#EFF8FB'}
+
 def update_tasks(request):
     for pk in request.POST.getlist('completed'):
         task = Task.objects.get(pk=pk)
@@ -68,7 +70,11 @@ def update_quest(profile):
 def all(request):
     update_tasks(request)
     tasks = Task.objects.filter(user=request.user, completed=False)
-    return render(request, 'tasks/all.html', {'tasks': tasks})
+    userlevel = UserProfile.objects.get(user=request.user).level
+    return render(request, 'tasks/all.html', {'tasks': tasks,
+                                              'TABLE_BG_COLORS':TABLE_BG_COLORS,
+                                              'username':request.user.username,
+                                              'userlevel':userlevel})
 
 @login_required
 def today(request):
@@ -91,9 +97,13 @@ def today(request):
             quest_status = 'need more'
         else:
             quest_status = 'can complete'
+    userlevel = UserProfile.objects.get(user=request.user).level
     return render(request, 'tasks/today.html', {'tasks': tasks,
                                                 'remaining_xp': remaining_xp,
-                                                'status': quest_status})
+                                                'status': quest_status,
+                                                'TABLE_BG_COLORS':TABLE_BG_COLORS,
+                                                'username':request.user.username,
+                                                'userlevel':userlevel})
 
 class TaskDetailForm(ModelForm):
     class Meta:
@@ -114,7 +124,11 @@ def detail(request,pk):
             formdata.instance.user = request.user
             formdata.save()
         form = TaskDetailForm(instance = task)
-        return render(request, 'tasks/detail.html', {'form': form, 'pk': task.pk})
+        userlevel = UserProfile.objects.get(user=request.user).level
+        return render(request, 'tasks/detail.html', {'form': form,
+                                                     'pk': task.pk,
+                                                     'username':request.user.username,
+                                                     'userlevel':userlevel})
 
 
 
