@@ -16,3 +16,6 @@ class UserProfile(models.Model):
     # calculation other than that it seems to provide a decent curve.
     def quest_req(self):
         return 5 * math.floor(math.log((self.level+1.5)**2, 2))
+    # xp to level does not include prior xp gained. xp should be set to zero after levelup.
+    def xp_to_level(self):
+        return 25 * math.floor(self.level/25 + 1) + 100

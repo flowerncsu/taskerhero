@@ -10,11 +10,11 @@ from django.forms import ModelForm
 TABLE_BG_COLORS = {0:'#FBF2EF', 1:'#EFF8FB'}
 
 def update_tasks(request):
+    profile = UserProfile.objects.get(user = request.user)
     for pk in request.POST.getlist('completed'):
         task = Task.objects.get(pk=pk)
         task.completed = True
         xp = task.get_xp()
-        profile = UserProfile.objects.get(user = task.user)
         profile.xp += xp
         if task.for_today:
             profile.quest_xp += xp
@@ -48,7 +48,7 @@ def update_tasks(request):
             # regardless of which category, save the task before moving on
             task.save()
         """
-    # add any new tasks that user typed in
+    # add any new tasks the user typed in
     if ('new_task' in request.POST) and (request.POST['new_task'] != ''):
         task = Task(task_name = request.POST['new_task'],
                     create_date = timezone.now(),
@@ -60,6 +60,11 @@ def update_tasks(request):
                     user=request.user,
                     for_today=True)
         task.save()
+    # check for levelup
+    if profile.xp >= profile.xp_to_level():
+        profile.xp -= profile.xp_to_level()
+        profile.level += 1
+        profile.save()
 
 def update_quest(profile):
     profile.quest_xp = 0
