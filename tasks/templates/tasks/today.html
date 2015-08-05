@@ -18,7 +18,8 @@
 	<table>
 	<tr><th>Task</th><th>Completed</th></tr>
 	{% for task in tasks %}
-		<tr>
+		<tr bgcolor="{% if forloop.counter|divisibleby:2 %}{{TABLE_BG_COLORS.0}}
+	                 {% else %}{{TABLE_BG_COLORS.1}}{% endif %}">
 			<td width="400px"><a href="{% url 'tasks.views.detail' task.pk %}">
 				{{task.task_name}}</a></td>
 			<td>
