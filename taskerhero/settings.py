@@ -111,4 +111,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = 'C:/th-venv/project/taskerhero/assets/'
+STATICFILES_DIRS = ('C:/th-venv/project/taskerhero/static/',)
 LOGIN_REDIRECT_URL = '/'
