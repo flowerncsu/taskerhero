@@ -14,7 +14,7 @@ class Task(models.Model):
     # repeat type
     #   - interval_after: repeats x days after last completion
     #       - If this is chosen, repeat_weeks will not be used.
-    #   - interval_every: repeats x days after last instantiation
+    #   - interval_every: repeats x days after last due date
     #       - If this is chosen, repeat_weeks will not be used.
     #   - TO BE IMPLEMENTED: calendar, ie: every week on Monday
     #       - repeat_weeks is how many weeks between instances
@@ -27,7 +27,7 @@ class Task(models.Model):
     repeat_type = models.CharField(max_length=2,
                                    choices=((NON_REPEATING, 'No Repeat'),
                                             (INTERVAL_AFTER, 'Repeat After X Days'),
-                                            (INTERVAL_EVERY, 'Repeat Every X Days'), )
+                                            (INTERVAL_EVERY, 'Repeat Every X Days'), ),
                                    default=NON_REPEATING)
     repeat_days = models.IntegerField('days between instances', null=True, blank=True)
     repeat_weeks = models.IntegerField('weeks between instances', null=True, blank=True)

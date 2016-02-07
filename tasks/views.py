@@ -18,6 +18,24 @@ def update_tasks(request):
         profile.xp += xp
         if task.for_today:
             profile.quest_xp += xp
+        if task.repeat_type == Task.INTERVAL_EVERY:
+            newtask = Task(task_name = task.task_name,
+                      create_date = timezone.now(),
+                      user = request.user,
+                      repeat_type = Task.INTERVAL_EVERY,
+                      repeat_days = task.repeat_days,
+                      due_date = task.next_due_date,
+                      next_due_date = task.next_due_date + timezone.timedelta(days=task.repeat_days))
+            newtask.save()
+        if task.repeat_type == Task.INTERVAL_AFTER:
+            newtask = Task(task_name = task.task_name,
+                      create_date = timezone.now(),
+                      user = request.user,
+                      repeat_type = Task.INTERVAL_EVERY,
+                      repeat_days = task.repeat_days,
+                      due_date = task.next_due_date,
+                      next_due_date = timezone.now() + timezone.timedelta(days=task.repeat_days))
+            newtask.save()
         task.save()
         profile.save()
     # because user could check OR uncheck this box for tasks, each task needs its for_today
@@ -52,13 +70,15 @@ def update_tasks(request):
     if ('new_task' in request.POST) and (request.POST['new_task'] != ''):
         task = Task(task_name = request.POST['new_task'],
                     create_date = timezone.now(),
-                    user=request.user)
+                    user = request.user,
+                    repeat_type = Task.NON_REPEATING)
         task.save()
     if ('new_today_task' in request.POST) and (request.POST['new_today_task'] != ''):
         task = Task(task_name = request.POST['new_today_task'],
                     create_date = timezone.now(),
-                    user=request.user,
-                    for_today=True)
+                    user = request.user,
+                    for_today = True,
+                    repeat_type = Task.NON_REPEATING)
         task.save()
     # check for levelup
     if profile.xp >= profile.xp_to_level():
