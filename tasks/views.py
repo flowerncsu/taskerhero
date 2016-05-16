@@ -92,10 +92,11 @@ def update_quest(profile):
     profile.quest_xp = 0
     profile.quest_update = timezone.now().date()
     profile.save()
-    # Add tasks with a due date of today to the quest
-    todaysTasks = Task.objects.filter(user=request.user, due_date=timezone.now().date())
+    # Add tasks with a due date of today to the quest - CURRENTLY BROKEN
+    todaysTasks = Task.objects.filter(user=profile.user, due_date=timezone.now().date())
     for task in todaysTasks:
         task.for_today = True
+        task.save()
 
 @login_required
 def all(request):
