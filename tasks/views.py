@@ -11,6 +11,7 @@ TABLE_BG_COLORS = {0:'#FBF2EF', 1:'#EFF8FB'}
 
 def update_tasks(request):
     profile = UserProfile.objects.get(user = request.user)
+    # process completed tasks
     for pk in request.POST.getlist('completed'):
         task = Task.objects.get(pk=pk)
         task.completed = True
@@ -31,7 +32,7 @@ def update_tasks(request):
             newtask = Task(task_name = task.task_name,
                       create_date = timezone.now(),
                       user = request.user,
-                      repeat_type = Task.INTERVAL_EVERY,
+                      repeat_type = Task.INTERVAL_AFTER,
                       repeat_days = task.repeat_days,
                       due_date = task.next_due_date,
                       next_due_date = timezone.now() + timezone.timedelta(days=task.repeat_days))
@@ -87,9 +88,14 @@ def update_tasks(request):
         profile.save()
 
 def update_quest(profile):
+    # Used to reset quest when it's a new day
     profile.quest_xp = 0
     profile.quest_update = timezone.now().date()
     profile.save()
+    # Add tasks with a due date of today to the quest
+    todaysTasks = Task.objects.filter(user=request.user, due_date=timezone.now().date())
+    for task in todaysTasks:
+        task.for_today = True
 
 @login_required
 def all(request):

@@ -13,24 +13,23 @@ class Task(models.Model):
     due_date = models.DateField(null=True, blank=True)
     # repeat type
     #   - interval_after: repeats x days after last completion
-    #       - If this is chosen, repeat_weeks will not be used.
     #   - interval_every: repeats x days after last due date
-    #       - If this is chosen, repeat_weeks will not be used.
-    #   - TO BE IMPLEMENTED: calendar, ie: every week on Monday
-    #       - repeat_weeks is how many weeks between instances
-    #       - repeat_days is which day of the week to instantiate
-    #           - 0=Sunday, 1=Monday, ..., 6=Saturday
+    #   - TO BE IMPLEMENTED: interval_calen, ie: every week on Monday
     # set priority levels
     NON_REPEATING = 'NR'
-    INTERVAL_AFTER = 'IA'
-    INTERVAL_EVERY = 'IE'
+    INTERVAL_AFTER = 'IA' # on complete, create new with due_date = prev next_due_date
+                          # and new next_due_date = prev next_due_date + repeat_days
+                          # This should happen the same way even if new due date is in the past.
+    INTERVAL_EVERY = 'IE' # on complete, create new with due_date = prev next_due_date
+                          # and new next_due_date = today + repeat_days
+    INTERVAL_CALEN = 'IC' # Placeholder; not yet implemented
     repeat_type = models.CharField(max_length=2,
                                    choices=((NON_REPEATING, 'No Repeat'),
                                             (INTERVAL_AFTER, 'Repeat After X Days'),
-                                            (INTERVAL_EVERY, 'Repeat Every X Days'), ),
+                                            (INTERVAL_EVERY, 'Repeat Every X Days'),
+                                            ),
                                    default=NON_REPEATING)
     repeat_days = models.IntegerField('days between instances', null=True, blank=True)
-    repeat_weeks = models.IntegerField('weeks between instances', null=True, blank=True)
     next_due_date = models.DateField('for repeating tasks', null=True, blank=True)
     def __str__(self):
         return self.task_name
