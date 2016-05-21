@@ -3,3 +3,6 @@ __pycache__
 .idea/*
 .idea
 taskerhero/assets
+db.sqlite3
+tasks/migrations/*
+userprofile/migrations/*

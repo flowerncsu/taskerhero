@@ -92,7 +92,7 @@ def update_quest(profile):
     profile.quest_xp = 0
     profile.quest_update = timezone.now().date()
     profile.save()
-    # Add tasks with a due date of today to the quest - CURRENTLY BROKEN
+    # Add tasks with a due date of today to the quest
     todaysTasks = Task.objects.filter(user=profile.user, due_date=timezone.now().date())
     for task in todaysTasks:
         task.for_today = True
@@ -140,7 +140,7 @@ def today(request):
 class TaskDetailForm(ModelForm):
     class Meta:
         model = Task
-        fields = ['task_name', 'for_today', 'due_date']
+        fields = ['task_name', 'for_today', 'due_date', 'repeat_type', 'repeat_days']
 
 @login_required
 def detail(request,pk):
