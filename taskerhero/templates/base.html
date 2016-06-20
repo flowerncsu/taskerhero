@@ -1,28 +1,33 @@
 {% load staticfiles %}
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-<title>Tasker Hero</title>
 
-<link rel="stylesheet" href="{% static 'taskerhero/css/styles.css' %}" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="{% static 'taskerhero/css/bootstrap.min.css' %}" >
+  <link rel="stylesheet" href="{% static 'taskerhero/css/styles.css' %}" />
+
+  <title>Tasker Hero</title>
 
 </head>
 
 <body>
 
-<div id="container">
+<div class="container-fluid">
 
-   <div id="topbar">
-       <div id="left_header_block">
-	   <img src="{% static 'taskerhero/images/crossedswordssmall.png' %}">
+   <div class="row" id="topbar">
+       <div class="col-sm-2" id="left_header_block">
+	   <img class="img-responsive" src="{% static 'taskerhero/images/crossedswordssmall.png' %}">
 	   </div>
 	   
-	   <div id="header_content">
+	   <div class="col-sm-8" id="header_content">
            <h1>Tasker Hero</h1>
 	       <h2>Level up in life!</h2>
 	   </div>
 	   
-	   <div id="user_info">
+	   <div class="col-sm-2" id="user_info">
 	       <p>{{username}}</p>
 		   <p>Level {{userlevel}}</p>
 	   </div>

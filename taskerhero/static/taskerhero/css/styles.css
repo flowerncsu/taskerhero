@@ -1,11 +1,9 @@
-
+/*
 body {
     margin:0;
     height:100%;
 }
 
-container {
-}
 
 h1 {
     margin:0;
@@ -28,7 +26,7 @@ h3 {
     background-color:#5882FA;
     width:100%;
     height: 150px;
-    font-family: Arial, Helvetica, sans-serif;
+    /* font-family: Arial, Helvetica, sans-serif; 
 }
 
 #left_header_block {
@@ -47,7 +45,7 @@ h3 {
     padding-top: 20px;
     float:left;
 }
-
+/*
 #sidebar {
     background-color:#29088A;
     width:200px;
@@ -78,12 +76,13 @@ h3 {
     border: 5px inset #280B61;
     text-align:center;
 }
-
+*/
 .clear {
     clear:both;
 }
-
+/*
 th {
     text-align:left;
     padding:8px;
 }
+*/
