@@ -3,10 +3,11 @@
 <html lang="en">
 <head>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <link rel="stylesheet" href="{% static 'taskerhero/css/bootstrap.min.css' %}" >
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="{% static 'taskerhero/css/styles.css' %}" />
 
   <title>Tasker Hero</title>
@@ -15,9 +16,9 @@
 
 <body>
 
-<div class="container-fluid">
+<div class="container-fluid" class="remove-padding">
 
-   <div class="row" id="topbar">
+   <div class="row" id="topbar" class="remove-padding">
        <div class="col-sm-2" id="left_header_block">
 	   <img class="img-responsive" src="{% static 'taskerhero/images/crossedswordssmall.png' %}">
 	   </div>
@@ -32,8 +33,8 @@
 		   <p>Level {{userlevel}}</p>
 	   </div>
    </div>
-   <div class="clear"></div>
-   <div id="sidebar">
+   <div id="navmenu" class="row" class="remove-padding">
+       <ul class="remove-padding">
 		   <a href="{% url 'tasks.views.today' %}">
 	       <li>Today's Quest</li></a>
 	       <a href="{% url 'tasks.views.all' %}">
@@ -41,9 +42,9 @@
 	       <a href="{% url 'userprofile.views.userhome' %}">
 		   <li>My Items</li></a>
 		   <li>My Party</li>
+       </ul>
    </div>
-   </div>
-   <div>{% block content %}}{% endblock %}</div>
+   <div id="main-content">{% block content %}{% endblock %}</div>
    
 </div>
 
