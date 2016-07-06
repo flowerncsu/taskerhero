@@ -1,5 +1,5 @@
 {% load staticfiles %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -8,7 +8,7 @@
 
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="{% static 'taskerhero/css/styles.css' %}" />
+  <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script><link rel="stylesheet" href="{% static 'taskerhero/css/styles.css' %}" />
 
   <title>Tasker Hero</title>
 
@@ -16,10 +16,10 @@
 
 <body>
 
-<div class="container-fluid" class="remove-padding">
+<div class="container-fluid remove-padding">
 
-   <div class="row" id="topbar" class="remove-padding">
-       <div class="col-sm-2" id="left_header_block">
+   <div class="row remove-padding" id="topbar">
+       <div class="col-xs-2" id="left_header_block">
 	   <img class="img-responsive" src="{% static 'taskerhero/images/crossedswordssmall.png' %}">
 	   </div>
 	   
@@ -33,7 +33,7 @@
 		   <p>Level {{userlevel}}</p>
 	   </div>
    </div>
-   <div id="navmenu" class="row" class="remove-padding">
+   <div id="navmenu" class="row remove-padding">
        <ul class="remove-padding">
 		   <a href="{% url 'tasks.views.today' %}">
 	       <li>Today's Quest</li></a>

@@ -18,6 +18,11 @@ body, html {
     padding: 0;
 }
 
+.row-padding {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
 #topbar {
     background-color:#5882FA;
 }

@@ -1,12 +1,49 @@
 {% extends "base.html" %}
 
 {% block content %}
+<script>
+$(document).ready(function(){
+    $('#{{form.repeat_type.id_for_label}}').on('change', function() {
+      if (this.value == 'NR')
+      {
+        $("#repeat-options").hide();
+      }
+      else
+      {
+        $("#repeat-options").show();
+      }
+    });
+});
+</script>
     <form action="{% url 'tasks.views.detail' pk %}" method="post">
 	    {% csrf_token %}
-        <table>
-        {{form.as_table}}
-        </table>
+        {{form.non_field_errors}}
 	    <input type="submit" value="Save" />
+        {{form.task_name.errors}}
+        <div class="row row-padding">
+            <div class="col-lg-2">{{form.task_name.label_tag}}</div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-9"><input style="width: 100%" id="{{form.task_name.id_for_label}}" maxlength="{{form.task_name.field.max_length}}" name="{{form.task_name.html_name}}" type="text" value="{{form.task_name.value}}" /></div>
+        </div>
+        <div class="row row-padding">
+            <div class="col-lg-2">{{form.due_date.label_tag}}</div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-9">{{form.due_date}}</div>
+        </div>
+        <div class="row row-padding">
+            <div class="col-lg-2">{{form.repeat_type.label_tag}}</div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-9">{{form.repeat_type}}</div>
+        </div>
+        <div id="repeat-options">
+            <div class="row row-padding">
+                <div class="col-lg-2">{{form.repeat_days.label_tag}}</div>
+                <div class="col-lg-1"></div>
+                <div class="col-lg-9">{{form.repeat_days}}</div>
+            </div>
+        </div>
+
+        <input type="submit" value="Save" />
 	</form>
 
 {% endblock %}
