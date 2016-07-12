@@ -58,9 +58,9 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            'taskerhero/templates',
-            'tasks/templates',
-            'userprofile/templates',
+            os.path.join(BASE_DIR, 'taskerhero/templates'),
+            os.path.join(BASE_DIR, 'tasks/templates'),
+            os.path.join(BASE_DIR, 'userprofile/templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
