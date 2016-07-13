@@ -17,6 +17,8 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from . import views
 from django.contrib.auth.views import login, logout
+from django.conf.urls.static import static
+from taskerhero import settings
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -26,3 +28,5 @@ urlpatterns = [
     url(r'^tasks/', include('tasks.urls')),
     url(r'^user/', include('userprofile.urls')),
 ]
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
