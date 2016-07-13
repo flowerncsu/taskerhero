@@ -31,6 +31,10 @@ body, html {
     padding: 20px;
 }
 
+#header_content {
+    font-family:'Luckiest Guy', sans;
+}
+
 /*
 h1 {
     margin:0;
