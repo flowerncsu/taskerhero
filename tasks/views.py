@@ -148,18 +148,19 @@ def detail(request,pk):
         task = Task.objects.get(pk=pk)
     except Task.DoesNotExist:
         raise Http404
-    if task.user != request.user:
-        raise HttpResponseForbidden
     else:
-        formdata = TaskDetailForm(request.POST, instance = task)
-        if formdata.is_valid():
-            formdata.instance.user = request.user
-            formdata.save()
-        form = TaskDetailForm(instance = task)
-        userlevel = UserProfile.objects.get(user=request.user).level
-        return render(request, 'tasks/detail.html', {'form': form,
-                                                     'pk': task.pk,
-                                                     'username':request.user.username,
-                                                     'userlevel':userlevel})
+        if task.user != request.user:
+            raise HttpResponseForbidden
+        else:
+            if request.method == 'POST':
+                formdata = TaskDetailForm(request.POST, instance = task)
+                if formdata.is_valid():
+                    formdata.save()
+            form = TaskDetailForm(instance = task)
+            userlevel = UserProfile.objects.get(user=request.user).level
+            return render(request, 'tasks/detail.html', {'form': form,
+                                                         'pk': task.pk,
+                                                         'username':request.user.username,
+                                                         'userlevel':userlevel})
 
 
