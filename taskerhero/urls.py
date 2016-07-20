@@ -16,17 +16,20 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from . import views
-from django.contrib.auth.views import login, logout
+from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 from taskerhero import settings
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.index),
-    url(r'^accounts/login/$', login),
-    url(r'^accounts/logout/$', logout),
+    url(r'^accounts/login/$', auth_views.login),
+    url(r'^accounts/logout/$', auth_views.logout),
     url(r'^tasks/', include('tasks.urls')),
     url(r'^user/', include('userprofile.urls')),
+    # TODO: Customize password change form so it matches the template of the rest of the site
+    url(r'^password/', auth_views.password_change, name='change password'),
+    url(r'^passworddone/', auth_views.password_change_done, name='password_change_done'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

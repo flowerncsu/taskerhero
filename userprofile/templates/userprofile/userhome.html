@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p>Welcome, {{user.username}}!</p>
-    <p>You are level {{userlevel}} and have {{xp}} experience points.</p>
+    <h3>Welcome, {{user.username}}!</h3>
+    <h4>You are level {{userlevel}} and have {{xp}} experience points.</h4>
+
+    <a role="button" class="btn btn-primary" href="{% url 'change password' %}">Change Password</a>
+
 {% endblock %}
