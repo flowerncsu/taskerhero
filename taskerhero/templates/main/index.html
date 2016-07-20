@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p>Welcome to Task Hero!</p>
+    <h4>Welcome to Tasker Hero!</h4>
+
+    {% if not loggedin %}
+        <div>Registration is currently by invite only.
+            If you would like to be notified when registration is available, please send an email to signup@taskerhero.com.</div>
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            {{form}}
+            <input type="submit" value="Login" />
+        </form>
+    {% endif %}
 	
 {% endblock %}

@@ -22,9 +22,9 @@ from taskerhero import settings
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', views.index),
-    url(r'^accounts/login/$', auth_views.login),
-    url(r'^accounts/logout/$', auth_views.logout),
+    url(r'^$', views.index, name='home'),
+    url(r'^accounts/login/$', auth_views.login, name='login'),
+    url(r'^accounts/logout/$', auth_views.logout, name='logout'),
     url(r'^tasks/', include('tasks.urls')),
     url(r'^user/', include('userprofile.urls')),
     # TODO: Customize password change form so it matches the template of the rest of the site

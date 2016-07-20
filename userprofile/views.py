@@ -10,4 +10,5 @@ def userhome(request):
     return render(request, 'userprofile/userhome.html',
                   {'user':request.user, 'xp':profile.xp,
                    'username':request.user.username,
-                   'userlevel':userlevel})
+                   'userlevel':userlevel,
+                   'loggedin':True})

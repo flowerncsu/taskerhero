@@ -106,7 +106,8 @@ def all(request):
     return render(request, 'tasks/all.html', {'tasks': tasks,
                                               'TABLE_BG_COLORS':TABLE_BG_COLORS,
                                               'username':request.user.username,
-                                              'userlevel':userlevel})
+                                              'userlevel':userlevel,
+                                              'loggedin':True})
 
 @login_required
 def today(request):
@@ -135,7 +136,8 @@ def today(request):
                                                 'status': quest_status,
                                                 'TABLE_BG_COLORS':TABLE_BG_COLORS,
                                                 'username':request.user.username,
-                                                'userlevel':userlevel})
+                                                'userlevel':userlevel,
+                                                'loggedin':True})
 
 class TaskDetailForm(ModelForm):
     class Meta:
@@ -161,6 +163,7 @@ def detail(request,pk):
             return render(request, 'tasks/detail.html', {'form': form,
                                                          'pk': task.pk,
                                                          'username':request.user.username,
-                                                         'userlevel':userlevel})
+                                                         'userlevel':userlevel,
+                                                         'loggedin':True})
 
 
