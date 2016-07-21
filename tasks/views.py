@@ -20,6 +20,8 @@ def update_tasks(request):
         if task.for_today:
             profile.quest_xp += xp
         if task.repeat_type == Task.INTERVAL_EVERY:
+            if task.next_due_date == None:
+                task.next_due_date = task.create_date + task.repeat_days
             newtask = Task(task_name = task.task_name,
                       create_date = timezone.now(),
                       user = request.user,
