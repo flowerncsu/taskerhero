@@ -6,7 +6,27 @@ $(document).ready(function(){
     function toggle_options() {
         $('#repeat-options').toggle(this.value != 'NR');
     };
+
     $('#{{form.repeat_type.id_for_label}}').on('change', toggle_options).change();
+
+    function toggle_quest_buttons() {
+        $('#add_to_quest').toggle(this.value == 'False');
+        $('#remove_from_quest').toggle(this.value == 'True');
+    };
+
+    $('#{{form.for_today.id_for_label}}').on('change', toggle_quest_buttons).change();
+
+    $('#add_to_quest').click(function() {
+        $('#{{form.for_today.id_for_label}}').val('True');
+        $('#add_to_quest').hide()
+        $('#remove_from_quest').show()
+    });
+
+    $('#remove_from_quest').click(function() {
+        $('#{{form.for_today.id_for_label}}').val('False');
+        $('#add_to_quest').show()
+        $('#remove_from_quest').hide()
+    });
 });
 </script>
     <form action="{% url 'tasks.views.detail' pk %}" method="post">
@@ -18,6 +38,15 @@ $(document).ready(function(){
             <div class="col-lg-2">{{form.task_name.label_tag}}</div>
             <div class="col-lg-1"></div>
             <div class="col-lg-9"><input style="width: 100%" id="{{form.task_name.id_for_label}}" maxlength="{{form.task_name.field.max_length}}" name="{{form.task_name.html_name}}" type="text" value="{{form.task_name.value}}" /></div>
+        </div>
+        <input type="hidden" id="{{form.for_today.id_for_label}}" name="{{form.for_today.html_name}}" value="{{form.for_today.value}}" />
+        <div class="row row-padding">
+            <div class="col-lg-2"><label>Today's Quest:</label></div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-9">
+                <button type="button" id="add_to_quest" class="btn btn-success">Add to Quest</button>
+                <button type="button" id="remove_from_quest" class="btn btn-primary">Remove from Quest</button>
+            </div>
         </div>
         <div class="row row-padding">
             <div class="col-lg-2">{{form.due_date.label_tag}}</div>
