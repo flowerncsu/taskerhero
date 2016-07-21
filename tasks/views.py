@@ -20,8 +20,11 @@ def update_tasks(request):
         if task.for_today:
             profile.quest_xp += xp
         if task.repeat_type == Task.INTERVAL_EVERY:
+            # TODO: ensure that repeating tasks are not created without due dates and intervals rather than fixing at the end.
             if task.next_due_date == None:
                 task.next_due_date = task.create_date + task.repeat_days
+            if task.repeat_days == None:
+                task.repeat_days = 1
             newtask = Task(task_name = task.task_name,
                       create_date = timezone.now(),
                       user = request.user,
@@ -31,6 +34,8 @@ def update_tasks(request):
                       next_due_date = task.next_due_date + timezone.timedelta(days=task.repeat_days))
             newtask.save()
         if task.repeat_type == Task.INTERVAL_AFTER:
+            if task.repeat_days == None:
+                task.repeat_days = 1
             newtask = Task(task_name = task.task_name,
                       create_date = timezone.now(),
                       user = request.user,
