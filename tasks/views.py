@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Task
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -167,3 +167,12 @@ def detail(request,pk):
                                                          'loggedin':True})
 
 
+@login_required
+def delete(request):
+    if request.method == 'POST':
+        task = Task.objects.get(pk=request.POST['delete'])
+        # There's no reason the task's owner shouldn't match the logged-in user, but just as insurance, let's check.
+        # Wouldn't want to accidentally delete someone else's task.
+        if task.user == request.user:
+            task.delete()
+    return redirect('all tasks')
