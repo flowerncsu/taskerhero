@@ -18,7 +18,13 @@ def update_tasks(request):
         xp = task.get_xp()
         profile.xp += xp
         if task.for_today:
+            # If this completes the quest, log it and add the bonus xp
+            if profile.quest_xp < profile.quest_req() < (profile.quest_xp + xp):
+                profile.daily_quests_comp += 1
+                profile.xp += int(profile.QUEST_BONUS * profile.xp_to_level())
+            # regardless, add xp to user's total
             profile.quest_xp += xp
+
         if task.repeat_type == Task.INTERVAL_EVERY:
             # TODO: ensure that repeating tasks are not created without due dates and intervals rather than fixing at the end.
             if task.next_due_date == None:

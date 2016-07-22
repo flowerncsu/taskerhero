@@ -4,11 +4,16 @@ from django.contrib.auth.models import User
 import math
 
 class UserProfile(models.Model):
+    # QUEST_BONUS is the percentage of xp required to level that should be granted for quest completion
+    QUEST_BONUS = 0.04
+
     user = models.OneToOneField(User)
     xp = models.IntegerField(default=0)
     level = models.IntegerField(default=1)
     quest_update = models.DateField('date quest xp last updated', default=timezone.now().date())
     quest_xp = models.IntegerField("today's xp", default=0)
+    daily_quests_comp = models.IntegerField("number of times daily quest has been completed", default=0)
+
     def __str__(self):
         return self.user.username
     # XP needed for quest completion varies based on level. This function
