@@ -18,14 +18,14 @@ $(document).ready(function(){
 
     $('#add_to_quest').click(function() {
         $('#{{form.for_today.id_for_label}}').val('True');
-        $('#add_to_quest').hide()
-        $('#remove_from_quest').show()
+        $('#add_to_quest').hide();
+        $('#remove_from_quest').show();
     });
 
     $('#remove_from_quest').click(function() {
         $('#{{form.for_today.id_for_label}}').val('False');
-        $('#add_to_quest').show()
-        $('#remove_from_quest').hide()
+        $('#add_to_quest').show();
+        $('#remove_from_quest').hide();
     });
 });
 </script>
