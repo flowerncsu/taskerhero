@@ -8,7 +8,7 @@
 	<input type="submit" value="Save" />
 	
 	<table>
-	<tr><th>Task</th><th>Completed</th><th>Current<br>Quest</th></tr>
+	<tr><th>Task</th><th>Conquered</th><th>Current<br>Quest</th></tr>
 	<tr><td><input type="text" name="new_task" placeholder="Quick Add" size="60" /></td></tr>
 	{% for task in tasks %}
 	    <tr bgcolor="{% if forloop.counter|divisibleby:2 %}{{TABLE_BG_COLORS.0}}

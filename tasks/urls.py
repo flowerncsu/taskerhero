@@ -17,7 +17,8 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.all),
+    url(r'^$', views.all, name='all tasks'),
     url(r'^today$', views.today),
     url(r'^([0-9]+)', views.detail),
+    url(r'^delete$', views.delete, name='delete task'),
 ]

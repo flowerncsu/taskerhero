@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Task
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -20,6 +20,11 @@ def update_tasks(request):
         if task.for_today:
             profile.quest_xp += xp
         if task.repeat_type == Task.INTERVAL_EVERY:
+            # TODO: ensure that repeating tasks are not created without due dates and intervals rather than fixing at the end.
+            if task.next_due_date == None:
+                task.next_due_date = task.create_date + task.repeat_days
+            if task.repeat_days == None:
+                task.repeat_days = 1
             newtask = Task(task_name = task.task_name,
                       create_date = timezone.now(),
                       user = request.user,
@@ -29,6 +34,8 @@ def update_tasks(request):
                       next_due_date = task.next_due_date + timezone.timedelta(days=task.repeat_days))
             newtask.save()
         if task.repeat_type == Task.INTERVAL_AFTER:
+            if task.repeat_days == None:
+                task.repeat_days = 1
             newtask = Task(task_name = task.task_name,
                       create_date = timezone.now(),
                       user = request.user,
@@ -167,3 +174,12 @@ def detail(request,pk):
                                                          'loggedin':True})
 
 
+@login_required
+def delete(request):
+    if request.method == 'POST':
+        task = Task.objects.get(pk=request.POST['delete'])
+        # There's no reason the task's owner shouldn't match the logged-in user, but just as insurance, let's check.
+        # Wouldn't want to accidentally delete someone else's task.
+        if task.user == request.user:
+            task.delete()
+    return redirect('all tasks')
