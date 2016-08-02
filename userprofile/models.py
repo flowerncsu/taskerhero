@@ -6,6 +6,7 @@ import math
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     xp = models.IntegerField(default=0)
+    money = models.IntegerField(default=0)
     level = models.IntegerField(default=1)
     quest_update = models.DateField('date quest xp last updated', default=timezone.now().date())
     quest_xp = models.IntegerField("today's xp", default=0)
