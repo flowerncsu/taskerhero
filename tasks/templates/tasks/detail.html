@@ -18,20 +18,20 @@ $(document).ready(function(){
 
     $('#add_to_quest').click(function() {
         $('#{{form.for_today.id_for_label}}').val('True');
-        $('#add_to_quest').hide()
-        $('#remove_from_quest').show()
+        $('#add_to_quest').hide();
+        $('#remove_from_quest').show();
     });
 
     $('#remove_from_quest').click(function() {
         $('#{{form.for_today.id_for_label}}').val('False');
-        $('#add_to_quest').show()
-        $('#remove_from_quest').hide()
+        $('#add_to_quest').show();
+        $('#remove_from_quest').hide();
     });
 
     $('#delete_button').click(function() {
         yes_delete = confirm("Are you sure you want to delete this task? This cannot be undone, and you will not get any XP for this task!");
         if (yes_delete) {
-            $('#delete').submit()
+            $('#delete').submit();
         }
     });
 });

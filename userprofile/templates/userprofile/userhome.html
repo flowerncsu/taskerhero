@@ -3,6 +3,7 @@
 {% block content %}
     <h3>Welcome, {{user.username}}!</h3>
     <h4>You are level {{userlevel}} and have {{xp}} experience points.</h4>
+    <h4>You have completed {{quests_comp}} <a href="{% url 'today' %}">quests</a> so far!</h4>
 
     <a role="button" class="btn btn-primary" href="{% url 'change password' %}">Change Password</a>
 
