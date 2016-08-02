@@ -47,4 +47,7 @@ class Task(models.Model):
             xp *= (0.2 * base_xp)
         # todo, add priority levels: low = no bonus xp, med = +10% base_xp, high = +20% base_xp
         return math.floor(xp)
-    
+    def get_money(self):
+        # Get the amount of money the user should gain for completing this task
+        # TODO: once priority levels are implemented: low = 1, med = 3, high = 5
+        return 3
