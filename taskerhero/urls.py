@@ -30,6 +30,7 @@ urlpatterns = [
     # TODO: Customize password change form so it matches the template of the rest of the site
     url(r'^password/', auth_views.password_change, name='change password'),
     url(r'^passworddone/', auth_views.password_change_done, name='password_change_done'),
+    url(r'^rewards/', include('rewards.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

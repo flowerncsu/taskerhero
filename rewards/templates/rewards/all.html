@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <script>
+    $(document).ready(function(){
+        $(".redeembutton").click(function() {
+            yes_redeem = confirm("Are you sure you want to redeem this reward? Your money cannot be refunded if you change your mind later.");
+            if (yes_redeem) {
+                $reward_pk = $(this).attr('id');
+                $('#redeem_item').val($reward_pk);
+                $('#redeem_form').submit();
+            }
+        });
+    });
+    </script>
+
+    <h4>{{confirmation_text}}</h4>
+    <h4>You have {{money}} coins to spend!</h4>
+
+    <div class="pull-right"><form action="{% url 'new reward' %}"><button type="submit" class="btn btn-success">New Reward</button></form></div>
+
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+    <p>Your rewards:</p>
+	<form action="{% url 'all rewards' %}" method="post" id="redeem_form">
+	{% csrf_token %}
+    <input type="hidden" name="redeem" id="redeem_item"/>
+	</form>
+	
+	<table class="table">
+	<thead>
+		<tr><th>Reward</th><th class="centered">Cost</th><th class="centered">Redeem</th></tr>
+	</thead>
+	<tbody>
+	{% for reward in rewards %}
+	    <tr bgcolor="{% if forloop.counter|divisibleby:2 %}{{TABLE_BG_COLORS.0}}
+	                 {% else %}{{TABLE_BG_COLORS.1}}{% endif %}">
+			<td width="400px"><a href="{% url 'rewards.views.detail' reward.pk %}">
+				{{reward.reward_name}}</a></td>
+			<td align=center>
+				{{reward.cost}}
+			</td>
+            <td align=center>
+				{% if reward.redeemable %}Redeemable<button type="button" class="btn btn-primary redeembutton" id="{{reward.pk}}">Redeem</button>{% endif %}
+			</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+{% endblock %}

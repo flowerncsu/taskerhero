@@ -17,6 +17,7 @@ def update_tasks(request):
         task.completed = True
         xp = task.get_xp()
         profile.xp += xp
+        profile.money += task.get_money()
         if task.for_today:
             # If this completes the quest, log it and add the bonus xp
             if profile.quest_xp < profile.quest_req() < (profile.quest_xp + xp):

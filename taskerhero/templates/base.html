@@ -46,7 +46,8 @@
 		   <li>All Tasks</li></a>
 	       <a href="{% url 'userprofile.views.userhome' %}">
 		   <li>My Items</li></a>
-		   <li>My Party</li>
+           <a href="{% url 'all rewards' %}">
+		   <li>Rewards</li></a>
        </ul>
    </div>
    <div id="main-content">{% block content %}{% endblock %}</div>

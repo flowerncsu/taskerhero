@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'tasks',
     'userprofile',
+    'rewards',
 )
 
 MIDDLEWARE_CLASSES = (
