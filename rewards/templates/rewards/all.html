@@ -41,7 +41,7 @@
 				{{reward.cost}}
 			</td>
             <td align=center>
-				{% if reward.redeemable %}Redeemable<button type="button" class="btn btn-primary redeembutton" id="{{reward.pk}}">Redeem</button>{% endif %}
+				{% if reward.redeemable %}<button type="button" class="btn btn-primary redeembutton" id="{{reward.pk}}">Redeem</button>{% endif %}
 			</td>
 		</tr>
 	{% endfor %}
