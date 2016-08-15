@@ -6,53 +6,69 @@ from django.http import HttpResponse, HttpResponseForbidden, Http404
 from django.utils import timezone
 from userprofile.models import UserProfile
 from django.forms import ModelForm
+import logging
 
 TABLE_BG_COLORS = {0:'#FBF2EF', 1:'#EFF8FB'}
+
+def repeat_task(task):
+    # Ensure that task has a next due date and a repeat days
+    # TODO: ensure that repeating tasks are not created without due dates and intervals rather than fixing at the end.
+    if task.next_due_date == None:
+        task.next_due_date = task.create_date + task.repeat_days
+    if task.repeat_days == None:
+        task.repeat_days = 1
+
+    # Set new due date according to repeat type
+    if task.repeat_type == Task.INTERVAL_AFTER:
+        new_due_date = timezone.now() + timezone.timedelta(days=task.repeat_days)
+    elif task.repeat_type == Task.INTERVAL_EVERY:
+        new_due_date = task.due_date + timezone.timedelta(days=task.repeat_days)
+    else:
+        new_due_date = None
+        logging.warning("Unknown repeat type on task ID: " + task.pk)
+
+    # Create new task
+    newtask = Task(task_name = task.task_name,
+              create_date = timezone.now(),
+              user = task.user,
+              repeat_type = task.repeat_type,
+              repeat_days = task.repeat_days,
+              due_date = new_due_date,
+              next_due_date = task.next_due_date + timezone.timedelta(days=task.repeat_days))
+    newtask.save()
+
+
+def complete_task(task, profile):
+    # Start with the basics (mark completed, get xp and money)
+    task.completed = True
+    xp = task.get_xp()
+    profile.xp += xp
+    profile.money += task.get_money()
+
+    # Update quest if task is part of quest
+    if task.for_today:
+        # If this completes the quest, log it and add the bonus xp
+        if profile.quest_xp < profile.quest_req() < (profile.quest_xp + xp):
+            profile.daily_quests_comp += 1
+            profile.xp += int(profile.QUEST_BONUS * profile.xp_to_level())
+        # regardless, add xp to user's total
+        profile.quest_xp += xp
+
+    # Create new task if task is repeating
+    if task.repeat_type != Task.NON_REPEATING:
+        repeat_task(task)
+
+    # Save changes to database
+    task.save()
+    profile.save()
+
 
 def update_tasks(request):
     profile = UserProfile.objects.get(user = request.user)
     # process completed tasks
     for pk in request.POST.getlist('completed'):
         task = Task.objects.get(pk=pk)
-        task.completed = True
-        xp = task.get_xp()
-        profile.xp += xp
-        profile.money += task.get_money()
-        if task.for_today:
-            # If this completes the quest, log it and add the bonus xp
-            if profile.quest_xp < profile.quest_req() < (profile.quest_xp + xp):
-                profile.daily_quests_comp += 1
-                profile.xp += int(profile.QUEST_BONUS * profile.xp_to_level())
-            # regardless, add xp to user's total
-            profile.quest_xp += xp
-
-        if task.repeat_type == Task.INTERVAL_EVERY:
-            # TODO: ensure that repeating tasks are not created without due dates and intervals rather than fixing at the end.
-            if task.next_due_date == None:
-                task.next_due_date = task.create_date + task.repeat_days
-            if task.repeat_days == None:
-                task.repeat_days = 1
-            newtask = Task(task_name = task.task_name,
-                      create_date = timezone.now(),
-                      user = request.user,
-                      repeat_type = Task.INTERVAL_EVERY,
-                      repeat_days = task.repeat_days,
-                      due_date = task.next_due_date,
-                      next_due_date = task.next_due_date + timezone.timedelta(days=task.repeat_days))
-            newtask.save()
-        if task.repeat_type == Task.INTERVAL_AFTER:
-            if task.repeat_days == None:
-                task.repeat_days = 1
-            newtask = Task(task_name = task.task_name,
-                      create_date = timezone.now(),
-                      user = request.user,
-                      repeat_type = Task.INTERVAL_AFTER,
-                      repeat_days = task.repeat_days,
-                      due_date = task.next_due_date,
-                      next_due_date = timezone.now() + timezone.timedelta(days=task.repeat_days))
-            newtask.save()
-        task.save()
-        profile.save()
+        complete_task(task, profile)
     # because user could check OR uncheck this box for tasks, each task needs its for_today
     # attribute updated based on whether it's in the list or not.
     # WARNING: a different system will be needed if this option goes on a page other than
