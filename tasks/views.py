@@ -112,10 +112,10 @@ def update_tasks(request):
                     repeat_type = Task.NON_REPEATING)
         task.save()
     # check for levelup
-    if profile.xp >= profile.xp_to_level():
+    while profile.xp >= profile.xp_to_level():
         profile.xp -= profile.xp_to_level()
         profile.level += 1
-        profile.save()
+    profile.save()
 
 def update_quest(profile):
     # Used to reset quest when it's a new day
@@ -142,10 +142,15 @@ def all(request):
 @login_required
 def today(request):
     # reset quest if it hasn't been reset today
+    # (this has to happen before update_tasks so that quest items get credited to the correct day)
     profile = UserProfile.objects.get(user = request.user)
     if (timezone.now().date() - profile.quest_update).days >0:
         update_quest(profile)
+
     update_tasks(request)
+
+    # Reload profile in case quest was completed during update_tasks
+    profile = UserProfile.objects.get(user = request.user)
     tasks = Task.objects.filter(user=request.user, for_today=True, completed=False)
     # determine the status of the current quest
     if profile.quest_xp > profile.quest_req():
