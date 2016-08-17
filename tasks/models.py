@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 import math
 
+
 class Task(models.Model):
     task_name = models.CharField(max_length=400)
     create_date = models.DateTimeField('date created',default=timezone.now())
@@ -31,10 +32,12 @@ class Task(models.Model):
                                    default=NON_REPEATING)
     repeat_days = models.IntegerField('days between instances', null=True, blank=True)
     next_due_date = models.DateField('for repeating tasks', null=True, blank=True)
+
     def __str__(self):
         return self.task_name
     # xp should be calculated at task completion so that its age is taken
     # into account. Older tasks are worth more (do that thing you've been avoiding!)
+
     def get_xp(self):
         # Get the number of days ago that the task was created
         age = (timezone.now() - self.create_date).days
@@ -45,9 +48,20 @@ class Task(models.Model):
         xp = base_xp
         if self.for_today:
             xp *= (0.2 * base_xp)
-        # todo, add priority levels: low = no bonus xp, med = +10% base_xp, high = +20% base_xp
+        # todo, add priority levels:
+        #       low = no bonus xp, med = +10% base_xp, high = +20% base_xp
         return math.floor(xp)
+
     def get_money(self):
         # Get the amount of money the user should gain for completing this task
-        # TODO: once priority levels are implemented: low = 1, med = 3, high = 5
+        # TODO: once priority levels are implemented:
+        #       low = 1, med = 3, high = 5
         return 3
+
+
+class Tag(models.Model):
+    tag_name = models.CharField(max_length=25)
+    task_id = models.ForeignKey(Task)
+
+    def __str__(self):
+        return self.tag_name

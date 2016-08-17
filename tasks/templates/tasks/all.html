@@ -6,6 +6,12 @@
 	<form action="{% url 'tasks.views.all' %}" method="post">
 	{% csrf_token %}
 	<input type="submit" value="Save" />
+
+	<div class="tag-header">
+		{% for tag in tags %}
+			<div class="tag">{{tag}}</div>
+		{% endfor %}
+	</div>
 	
 	<table class="table">
 	<thead>

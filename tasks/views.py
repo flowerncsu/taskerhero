@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Task
+from .models import Task, Tag
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseForbidden, Http404
@@ -128,12 +128,21 @@ def update_quest(profile):
         task.for_today = True
         task.save()
 
+def get_tags(tasks):
+    # Get the list of tag names
+    full_list = Tag.objects.filter(task_id__in=[task.pk for task in tasks])
+    # Get names as a set, to remove duplicates
+    tag_names = {tag.tag_name for tag in full_list}
+    return list(tag_names)
+
 @login_required
 def all(request):
     update_tasks(request)
     tasks = Task.objects.filter(user=request.user, completed=False)
+    tag_list = get_tags(tasks)
     userlevel = UserProfile.objects.get(user=request.user).level
     return render(request, 'tasks/all.html', {'tasks': tasks,
+                                              'tags': tag_list,
                                               'TABLE_BG_COLORS':TABLE_BG_COLORS,
                                               'username':request.user.username,
                                               'userlevel':userlevel,
