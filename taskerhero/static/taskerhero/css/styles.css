@@ -8,10 +8,9 @@
     background-color: #000066;
 }
 
-
 body, html {
-    margin:0;
-    height:100%;
+    margin: 0;
+    height: 100%;
 }
 
 .remove-padding {
@@ -24,7 +23,7 @@ body, html {
 }
 
 #topbar {
-    background-color:#5882FA;
+    background-color: #5882FA;
 }
 
 #main-content {
@@ -32,7 +31,7 @@ body, html {
 }
 
 #header_content {
-    font-family:'Luckiest Guy', sans;
+    font-family: 'Luckiest Guy', sans;
 }
 
 .right-align {
@@ -41,4 +40,9 @@ body, html {
 
 .centered {
     text-align: center;
+}
+
+.tag-header {
+    display: flex;
+    flex-direction: row;
 }
