@@ -37,6 +37,14 @@ def repeat_task(task):
               next_due_date = task.next_due_date + timezone.timedelta(days=task.repeat_days))
     newtask.save()
 
+    # Carry tags forward
+    tag_list = Tag.objects.filter(task_id = task.pk)
+    for tag in tag_list:
+        # Create a new entry in the tag db in order that tags remain attached
+        # to completed tasks.
+        new_tag = Tag(tag_name=tag.tag_name, task_id=newtask.pk)
+        new_tag.save()
+
 
 def complete_task(task, profile):
     # Start with the basics (mark completed, get xp and money)
@@ -215,8 +223,12 @@ def detail(request,pk):
 def delete(request):
     if request.method == 'POST':
         task = Task.objects.get(pk=request.POST['delete'])
-        # There's no reason the task's owner shouldn't match the logged-in user, but just as insurance, let's check.
+        # There's no reason the task's owner shouldn't match the logged-in
+        # user, but just as insurance, let's check.
         # Wouldn't want to accidentally delete someone else's task.
         if task.user == request.user:
+            tag_list = Tag.objects.filter(task_id = task.pk)
+            for tag in tag_list:
+                tag.delete()
             task.delete()
     return redirect('all tasks')
