@@ -37,50 +37,56 @@ $(document).ready(function(){
 });
 </script>
 
-    <form action="{% url 'tasks.views.detail' pk %}" method="post">
-	    {% csrf_token %}
-        {{form.non_field_errors}}
-	    <input type="submit" value="Save" />
-        {{form.task_name.errors}}
-        <div class="row row-padding">
-            <div class="col-lg-2">{{form.task_name.label_tag}}</div>
-            <div class="col-lg-1"></div>
-            <div class="col-lg-9"><input style="width: 100%" id="{{form.task_name.id_for_label}}" maxlength="{{form.task_name.field.max_length}}" name="{{form.task_name.html_name}}" type="text" value="{{form.task_name.value}}" /></div>
-        </div>
-        <input type="hidden" id="{{form.for_today.id_for_label}}" name="{{form.for_today.html_name}}" value="{{form.for_today.value}}" />
-        <div class="row row-padding">
-            <div class="col-lg-2"><label>Today's Quest:</label></div>
-            <div class="col-lg-1"></div>
-            <div class="col-lg-9">
-                <button type="button" id="add_to_quest" class="btn btn-success">Add to Quest</button>
-                <button type="button" id="remove_from_quest" class="btn btn-primary">Remove from Quest</button>
-            </div>
-        </div>
-        <div class="row row-padding">
-            <div class="col-lg-2">{{form.due_date.label_tag}}</div>
-            <div class="col-lg-1"></div>
-            <div class="col-lg-9">{{form.due_date}}</div>
-        </div>
-        <div class="row row-padding">
-            <div class="col-lg-2">{{form.repeat_type.label_tag}}</div>
-            <div class="col-lg-1"></div>
-            <div class="col-lg-9">{{form.repeat_type}}</div>
-        </div>
-        <div id="repeat-options">
-            <div class="row row-padding">
-                <div class="col-lg-2">{{form.repeat_days.label_tag}}</div>
-                <div class="col-lg-1"></div>
-                <div class="col-lg-9">{{form.repeat_days}}</div>
-            </div>
-        </div>
+<div class="tag-header">
+    {% for tag in user_tags %}
+        <button class="btn {% if tag.tag_name in task_tags %}btn-primary{% else %}btn-default{% endif %}" id="tag-{{tag.tag_name}}">{{tag.tag_name}}</button>
+    {% endfor %}
+</div>
 
-        <input type="submit" value="Save" />
-	</form>
+<form action="{% url 'tasks.views.detail' pk %}" method="post">
+    {% csrf_token %}
+    {{form.non_field_errors}}
+    <input type="submit" value="Save" />
+    {{form.task_name.errors}}
+    <div class="row row-padding">
+        <div class="col-lg-2">{{form.task_name.label_tag}}</div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-9"><input style="width: 100%" id="{{form.task_name.id_for_label}}" maxlength="{{form.task_name.field.max_length}}" name="{{form.task_name.html_name}}" type="text" value="{{form.task_name.value}}" /></div>
+    </div>
+    <input type="hidden" id="{{form.for_today.id_for_label}}" name="{{form.for_today.html_name}}" value="{{form.for_today.value}}" />
+    <div class="row row-padding">
+        <div class="col-lg-2"><label>Today's Quest:</label></div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-9">
+            <button type="button" id="add_to_quest" class="btn btn-success">Add to Quest</button>
+            <button type="button" id="remove_from_quest" class="btn btn-primary">Remove from Quest</button>
+        </div>
+    </div>
+    <div class="row row-padding">
+        <div class="col-lg-2">{{form.due_date.label_tag}}</div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-9">{{form.due_date}}</div>
+    </div>
+    <div class="row row-padding">
+        <div class="col-lg-2">{{form.repeat_type.label_tag}}</div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-9">{{form.repeat_type}}</div>
+    </div>
+    <div id="repeat-options">
+        <div class="row row-padding">
+            <div class="col-lg-2">{{form.repeat_days.label_tag}}</div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-9">{{form.repeat_days}}</div>
+        </div>
+    </div>
 
-    <form action="{% url 'delete task' %}" method="post" id="delete">
-	    {% csrf_token %}
-        <input type="hidden" name="delete" value="{{pk}}" />
-    </form>
-    <button type="button" class="btn btn-danger" id="delete_button">Delete Task</button>
+    <input type="submit" value="Save" />
+</form>
+
+<form action="{% url 'delete task' %}" method="post" id="delete">
+    {% csrf_token %}
+    <input type="hidden" name="delete" value="{{pk}}" />
+</form>
+<button type="button" class="btn btn-danger" id="delete_button">Delete Task</button>
 
 {% endblock %}

@@ -211,9 +211,16 @@ def detail(request,pk):
                 if formdata.is_valid():
                     formdata.save()
             form = TaskDetailForm(instance = task)
+
+            # Get tags
+            user_tags = Tag.objects.filter(task_id__user = request.user)
+            task_tags = get_tags([task])
+
             userlevel = UserProfile.objects.get(user=request.user).level
             return render(request, 'tasks/detail.html', {'form': form,
                                                          'pk': task.pk,
+                                                         'user_tags': user_tags,
+                                                         'task_tags': task_tags,
                                                          'username':request.user.username,
                                                          'userlevel':userlevel,
                                                          'loggedin':True})
