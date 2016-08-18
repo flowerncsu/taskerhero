@@ -46,7 +46,7 @@ $(document).ready(function(){
 <form action="{% url 'tasks.views.detail' pk %}" method="post">
     {% csrf_token %}
     {{form.non_field_errors}}
-    <input type="submit" value="Save" />
+    <input type="submit" class="btn btn-success" value="Save" />
     {{form.task_name.errors}}
     <div class="row row-padding">
         <div class="col-lg-2">{{form.task_name.label_tag}}</div>
@@ -80,7 +80,7 @@ $(document).ready(function(){
         </div>
     </div>
 
-    <input type="submit" value="Save" />
+    <input type="submit" class="btn btn-success" value="Save" />
 </form>
 
 <form action="{% url 'delete task' %}" method="post" id="delete">

@@ -137,7 +137,7 @@ def update_quest(profile):
         task.save()
 
 def get_tags(tasks):
-    # Get the list of tag names
+    # Get the list of tags (as objects) that apply to any task in the list "tasks"
     full_list = Tag.objects.filter(task_id__in=[task.pk for task in tasks])
     # Get names as a set, to remove duplicates
     tag_names = {tag.tag_name for tag in full_list}
@@ -221,9 +221,9 @@ def detail(request,pk):
                                                          'pk': task.pk,
                                                          'user_tags': user_tags,
                                                          'task_tags': task_tags,
-                                                         'username':request.user.username,
-                                                         'userlevel':userlevel,
-                                                         'loggedin':True})
+                                                         'username': request.user.username,
+                                                         'userlevel': userlevel,
+                                                         'loggedin': True})
 
 
 @login_required
