@@ -34,12 +34,15 @@ $(document).ready(function(){
             $('#delete').submit();
         }
     });
+    $('.tag-button').click(function() {
+        $(this).toggleClass('btn-primary btn-default');
+    });
 });
 </script>
 
 <div class="tag-header">
     {% for tag in user_tags %}
-        <button class="btn {% if tag.tag_name in task_tags %}btn-primary{% else %}btn-default{% endif %}" id="tag-{{tag.tag_name}}">{{tag.tag_name}}</button>
+        <button class="tag-button btn {% if tag.tag_name in task_tags %}btn-primary{% else %}btn-default{% endif %}" id="tag-{{tag.tag_name}}">{{tag.tag_name}}</button>
     {% endfor %}
 </div>
 

@@ -91,20 +91,6 @@ def update_tasks(request):
             task = Task.objects.get(pk=pk)
             task.for_today = True
             task.save()
-        """
-        # todo: figure out why this method didn't work
-        # today_list should be a list of pks for tasks that are marked as being for today
-        today_list = request.POST.getlist('for_today')
-        tasks = Task.objects.filter(user=request.user, completed=False)
-        # iterate over all tasks that are not completed
-        for task in tasks:
-            if task.pk in today_list:
-                task.for_today = True
-            else:
-                task.for_today = False
-            # regardless of which category, save the task before moving on
-            task.save()
-        """
     # add any new tasks the user typed in
     if ('new_task' in request.POST) and (request.POST['new_task'] != ''):
         task = Task(task_name = request.POST['new_task'],
@@ -208,8 +194,10 @@ def detail(request,pk):
         else:
             if request.method == 'POST':
                 formdata = TaskDetailForm(request.POST, instance = task)
+                # Save the task model
                 if formdata.is_valid():
                     formdata.save()
+                # Save the tag information
             form = TaskDetailForm(instance = task)
 
             # Get tags
