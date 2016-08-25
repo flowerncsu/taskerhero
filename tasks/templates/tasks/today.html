@@ -16,6 +16,7 @@
 	{% csrf_token %}
 		
 	<table>
+	<tr><td><input type="text" name="new_today_task" placeholder="Quick Add" size="60" autofocus/></td></tr>
 	<tr><th>Task</th><th>Conquered</th></tr>
 	{% for task in tasks %}
 		<tr bgcolor="{% if forloop.counter|divisibleby:2 %}{{TABLE_BG_COLORS.0}}
@@ -28,7 +29,6 @@
 			</td>
 		</tr>
 	{% endfor %}
-	<tr><td><input type="text" name="new_today_task" placeholder="Quick Add" size="60" /></td></tr>
 	</table>
 	<input type="submit" value="Save" />
 	</form>
