@@ -35,14 +35,38 @@ $(document).ready(function(){
         }
     });
     $('.tag-button').click(function() {
-        $(this).toggleClass('btn-primary btn-default');
+        if ($(this).hasClass('btn-primary')) {
+            data_dict = {remove_tag: $(this).text(),
+                         task_id: {{pk}},
+                         csrfmiddlewaretoken: '{{ csrf_token }}'
+                         };
+            console.log("value to send is ", $(this).text());
+        } else {
+            data_dict = {add_tag: $(this).text(),
+                         task_id: {{pk}},
+                         csrfmiddlewaretoken: '{{ csrf_token }}'
+                         };
+            console.log("value to send is ", $(this).text());
+        };
+        $.ajax({
+            url: '{% url 'update tag' %}',
+            method: 'POST',
+            data: data_dict
+        }).done(function(json) {
+            element_id = '#tag-' + json.tag_name
+            $(element_id).toggleClass('btn-primary btn-default');
+        }).fail(function(errorinfo) {
+            console.log(errorinfo);
+        });
     });
 });
 </script>
 
 <div class="tag-header">
     {% for tag in user_tags %}
-        <button class="tag-button btn {% if tag.tag_name in task_tags %}btn-primary{% else %}btn-default{% endif %}" id="tag-{{tag.tag_name}}">{{tag.tag_name}}</button>
+        <button class="tag-button btn
+                {% if tag in task_tags %}btn-primary{% else %}btn-default{% endif %}"
+                id="tag-{{tag}}">{{tag}}</button>
     {% endfor %}
 </div>
 

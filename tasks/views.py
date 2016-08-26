@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Task, Tag
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseForbidden, Http404
+from django.http import HttpResponse, HttpResponseForbidden, Http404, JsonResponse
 from django.utils import timezone
 from userprofile.models import UserProfile
 from django.forms import ModelForm
@@ -201,7 +201,7 @@ def detail(request,pk):
             form = TaskDetailForm(instance = task)
 
             # Get tags
-            user_tags = Tag.objects.filter(task_id__user = request.user)
+            user_tags = get_tags(Task.objects.filter(user=request.user))
             task_tags = get_tags([task])
 
             userlevel = UserProfile.objects.get(user=request.user).level
@@ -227,3 +227,24 @@ def delete(request):
                 tag.delete()
             task.delete()
     return redirect('all tasks')
+
+
+def update_tag(request):
+    if request.method == 'POST':
+        if 'task_id' in request.POST:
+            if 'add_tag' in request.POST:
+                tag = Tag(tag_name=request.POST['add_tag'],
+                          task_id=Task.objects.get(pk=request.POST['task_id']))
+                tag.save()
+                return JsonResponse({'tag_name': request.POST['add_tag']})
+            elif 'remove_tag' in request.POST:
+                tag = Tag.objects.get(tag_name=request.POST['remove_tag'],
+                                      task_id=Task.objects.get(pk=request.POST['task_id']))
+                tag.delete()
+                return JsonResponse({'tag_name': request.POST['remove_tag']})
+            else:
+                return HttpResponse('Invalid information provided', status=490)
+        else:
+            return HttpResponse('Invalid information provided; POST keys were: ' + str(request.POST.keys()), status=490)
+    else:
+        return HttpResponse('Method not allowed', status=405)

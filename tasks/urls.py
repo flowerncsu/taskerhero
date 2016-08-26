@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^today$', views.today, name='today'),
     url(r'^([0-9]+)', views.detail),
     url(r'^delete$', views.delete, name='delete task'),
+    url(r'^updatetag', views.update_tag, name='update tag'),
 ]
