@@ -4,6 +4,10 @@
 <script>
 $(document).ready(function(){
     updateStriping('.table-main tr');
+
+    $('#untagged-tasks').click(function() {
+        $(this).toggleClass('btn-primary btn-default');
+    });
 });
 </script>
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
@@ -19,6 +23,7 @@ $(document).ready(function(){
 		    type="button">{{tag}}</button></div>
 		{% endfor %}
 	</div>
+    <div class="tag"><button class="btn btn-primary" id="untagged-tasks" type="button">Untagged</button></div>
 	
 	<table class="table">
 	<thead>
