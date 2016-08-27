@@ -9,7 +9,9 @@
 
 	<div class="tag-header">
 		{% for tag in tags %}
-			<div class="tag"><button class="btn btn-default" type="submit">{{tag}}</button></div>
+			<div class="tag"><button class="btn
+			{% if tag in active_tags %}btn-primary{% else %}btn-default{% endif %}"
+		    type="button">{{tag}}</button></div>
 		{% endfor %}
 	</div>
 	

@@ -46,3 +46,11 @@ body, html {
     display: flex;
     flex-direction: row;
 }
+
+.table-color-1 {
+    background-color: #FBF2EF;
+}
+
+.table-color-2 {
+    background-color: #EFF8FB;
+}

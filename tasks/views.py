@@ -133,10 +133,11 @@ def get_tags(tasks):
 def all(request):
     update_tasks(request)
     tasks = Task.objects.filter(user=request.user, completed=False)
-    tag_list = get_tags(tasks)
+    tag_list = get_tags(tasks) # Names only, no repeats
     userlevel = UserProfile.objects.get(user=request.user).level
     return render(request, 'tasks/tasklist.html', {'tasks': tasks,
                                               'tags': tag_list,
+                                              'active_tags': tag_list, # All tags active
                                               'TABLE_BG_COLORS':TABLE_BG_COLORS,
                                               'username':request.user.username,
                                               'userlevel':userlevel,
