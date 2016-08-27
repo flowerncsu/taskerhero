@@ -3,6 +3,8 @@
 {% block content %}
     <script>
     $(document).ready(function(){
+        updateStriping('.table-main tr');
+
         $(".redeembutton").click(function() {
             yes_redeem = confirm("Are you sure you want to redeem this reward? Your money cannot be refunded if you change your mind later.");
             if (yes_redeem) {
@@ -31,7 +33,7 @@
 	<thead>
 		<tr><th>Reward</th><th class="centered">Cost</th><th class="centered">Redeem</th></tr>
 	</thead>
-	<tbody>
+	<tbody class="table-main">
 	{% for reward in rewards %}
 	    <tr bgcolor="{% if forloop.counter|divisibleby:2 %}{{TABLE_BG_COLORS.0}}
 	                 {% else %}{{TABLE_BG_COLORS.1}}{% endif %}">

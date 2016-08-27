@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+<script>
+$(document).ready(function(){
+    updateStriping('.table-main tr');
+});
+</script>
+
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 	{% if status = 'complete'%}
 	    <h3>You have completed today's quest! Come back tomorrow for another.</h3>
@@ -15,12 +22,14 @@
 	<form action="{% url 'tasks.views.today' %}" method="post">
 	{% csrf_token %}
 		
-	<table>
+	<table class="table">
+	<thead>
 	<tr><td><input type="text" name="new_today_task" placeholder="Quick Add" size="60" autofocus/></td></tr>
 	<tr><th>Task</th><th>Conquered</th></tr>
+    </thead>
+	<tbody class="table-main">
 	{% for task in tasks %}
-		<tr bgcolor="{% if forloop.counter|divisibleby:2 %}{{TABLE_BG_COLORS.0}}
-	                 {% else %}{{TABLE_BG_COLORS.1}}{% endif %}">
+		<tr>
 			<td width="400px"><a href="{% url 'tasks.views.detail' task.pk %}">
 				{{task.task_name}}</a></td>
 			<td>
@@ -29,6 +38,7 @@
 			</td>
 		</tr>
 	{% endfor %}
+    </tbody>
 	</table>
 	<input type="submit" value="Save" />
 	</form>
