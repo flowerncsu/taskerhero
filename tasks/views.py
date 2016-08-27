@@ -135,7 +135,7 @@ def all(request):
     tasks = Task.objects.filter(user=request.user, completed=False)
     tag_list = get_tags(tasks)
     userlevel = UserProfile.objects.get(user=request.user).level
-    return render(request, 'tasks/all.html', {'tasks': tasks,
+    return render(request, 'tasks/tasklist.html', {'tasks': tasks,
                                               'tags': tag_list,
                                               'TABLE_BG_COLORS':TABLE_BG_COLORS,
                                               'username':request.user.username,
