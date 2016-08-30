@@ -132,16 +132,18 @@ def get_tags(tasks):
 @login_required
 def all(request):
     update_tasks(request)
-    tasks = Task.objects.filter(user=request.user, completed=False)
-    tag_list = get_tags(tasks) # Names only, no repeats
+    task_list = Task.objects.filter(user=request.user, completed=False)
+    tasks = {task:get_tags([task]) for task in task_list}
+    master_tag_list = get_tags(tasks) # Names only, no repeats
     userlevel = UserProfile.objects.get(user=request.user).level
+
     return render(request, 'tasks/tasklist.html', {'tasks': tasks,
-                                              'tags': tag_list,
-                                              'active_tags': tag_list, # All tags active
-                                              'TABLE_BG_COLORS':TABLE_BG_COLORS,
-                                              'username':request.user.username,
-                                              'userlevel':userlevel,
-                                              'loggedin':True})
+                                                   'tags': master_tag_list,
+                                                   'active_tags': master_tag_list, # All tags active
+                                                   'TABLE_BG_COLORS':TABLE_BG_COLORS,
+                                                   'username':request.user.username,
+                                                   'userlevel':userlevel,
+                                                   'loggedin':True})
 
 @login_required
 def today(request):

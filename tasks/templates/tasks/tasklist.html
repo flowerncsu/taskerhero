@@ -24,23 +24,28 @@ $(document).ready(function(){
 		{% endfor %}
 	</div>
     <div class="tag"><button class="btn btn-primary" id="untagged-tasks" type="button">Untagged</button></div>
-	
+
 	<table class="table">
 	<thead>
-		<tr><th>Task</th><th class="centered">Conquered</th><th class="centered">Current<br>Quest</th></tr>
+		<tr><th>Task</th><th class="centered">Tags</th><th class="centered">Current<br>Quest</th><th class="centered">Conquered</th></tr>
 		<tr><td><input type="text" name="new_task" placeholder="Quick Add" size="60" autofocus/></td></tr>
 	</thead>
 	<tbody class="table-main">
-	{% for task in tasks %}
-	    <tr>
+	{% for task, tag_list in tasks.items %}
+	    <tr class="{% if tag_list %}{% for tag in tag_list %}tag-{{tag}} {% endfor %}{% else %}untagged {% endif %}">
 			<td width="400px"><a href="{% url 'tasks.views.detail' task.pk %}">
 				{{task.task_name}}</a></td>
-			<td align=center>
-			<input type="checkbox" name="completed" value="{{task.pk}}" />
+			<td align="center">
+				{% for tag in tag_list %}
+					<button class="btn btn-default">{{tag}}</button>
+				{% endfor %}
 			</td>
 			<td align=center>
 			<input type="checkbox" name="for_today" value="{{task.pk}}" 
 			{% if task.for_today %}checked{% endif %}/>
+			</td>
+			<td align=center>
+			<input type="checkbox" name="completed" value="{{task.pk}}" />
 			</td>
 		</tr>
 	{% endfor %}
