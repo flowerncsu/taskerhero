@@ -3,10 +3,16 @@
 {% block content %}
 <script>
 $(document).ready(function(){
-    updateStriping('.table-main tr');
+    var active_tags = [{% for tag in active_tags %}"{{ tag | escape }}", {% endfor %}];
+
+    $('.tag-btn').click(function() {
+        active_tags = toggleTag($(this), active_tags, '.table-main tr');
+    });
 
     $('#untagged-tasks').click(function() {
-        $(this).toggleClass('btn-primary btn-default');
+        toggleUntagged($(this));
+
+    updateStriping('.table-main tr');
     });
 });
 </script>
@@ -18,9 +24,10 @@ $(document).ready(function(){
 
 	<div class="tag-header">
 		{% for tag in tags %}
-			<div class="tag"><button class="btn
-			{% if tag in active_tags %}btn-primary{% else %}btn-default{% endif %}"
-		    type="button">{{tag}}</button></div>
+			<div class="tag"><button class="btn tag-btn
+			{% if tag in active_tags %}btn-primary{% else %}btn-default{% endif %}
+            tag-btn-{{tag | escape}}"
+		    type="button">{{tag | escape}}</button></div>
 		{% endfor %}
 	</div>
     <div class="tag"><button class="btn btn-primary" id="untagged-tasks" type="button">Untagged</button></div>
@@ -37,7 +44,7 @@ $(document).ready(function(){
 				{{task.task_name}}</a></td>
 			<td align="center">
 				{% for tag in tag_list %}
-					<button class="btn btn-default">{{tag}}</button>
+					<button class="btn btn-default">{{tag | escape}}</button>
 				{% endfor %}
 			</td>
 			<td align=center>
