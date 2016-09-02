@@ -55,3 +55,30 @@ function toggleUntagged(untagged_button) {
         $('.untagged').addClass('hidden');
     }
 }
+
+function updateTag(add_tag, tag_name, task_pk, csrf_token, update_url, button_id) {
+    // add_tag should be boolean; if false, tag will be removed
+    // on success, returns the name of the tag that was changed
+    // on fail, returns false
+    if (add_tag) {
+        data_dict = {add_tag: tag_name,
+                     task_id: task_pk,
+                     csrfmiddlewaretoken: csrf_token
+                     };
+    } else {
+        data_dict = {remove_tag: tag_name,
+                     task_id: task_pk,
+                     csrfmiddlewaretoken: csrf_token
+                     };
+    }
+    $.ajax({
+        url: update_url,
+        method: 'POST',
+        data: data_dict
+    }).done(function(json) {
+        element_id = '#' + button_id
+        $(element_id).toggleClass('btn-primary btn-default');
+    }).fail(function(errorinfo) {
+        console.log(errorinfo);
+    });
+}

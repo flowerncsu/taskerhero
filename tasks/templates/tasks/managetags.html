@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% autoescape on %}
+
+
+
+<div class="tag-details">
+{% for tag, tasks in tag_dict.items %}
+  <h2>{{tag}}</h2>
+  <div class="panel-group">
+    <div class="panel panel-default">
+      <a data-toggle="collapse" href="#{{tag|slugify}}-open"><div class="panel-heading">
+        <h4 class="panel-title">
+          Open tasks tagged {{tag}}
+        </h4>
+      </div></a>
+      <div id="{{tag|slugify}}-open" class="panel-collapse collapse">
+        <div class="panel-body">
+            {% for task in tasks.0 %}
+                <a href="{% url 'task detail' task.pk %}">{{task.task_name}}</a><br>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <a data-toggle="collapse" href="#{{tag|slugify}}-complete"><div class="panel-heading">
+        <h4 class="panel-title">
+          Completed tasks tagged {{tag}}
+        </h4>
+      </div></a>
+      <div id="{{tag|slugify}}-complete" class="panel-collapse collapse">
+        <div class="panel-body">
+            {% for task in tasks.1 %}
+                <a href="{% url 'task detail' task.pk %}">{{task.task_name}}</a><br>
+            {% endfor %}</div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+
+{% endautoescape %}
+
+{% endblock %}

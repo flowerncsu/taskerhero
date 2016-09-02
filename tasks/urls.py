@@ -19,7 +19,8 @@ from . import views
 urlpatterns = [
     url(r'^$', views.all, name='all tasks'),
     url(r'^today$', views.today, name='today'),
-    url(r'^([0-9]+)', views.detail),
+    url(r'^([0-9]+)', views.detail, name='task detail'),
     url(r'^delete$', views.delete, name='delete task'),
     url(r'^updatetag', views.update_tag, name='update tag'),
+    url(r'^managetags', views.manage_tags, name='manage tags'),
 ]

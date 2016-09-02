@@ -3,6 +3,12 @@
 {% block content %}
 <script>
 $(document).ready(function(){
+    $('#new-tag').on('submit', function (e) {
+        e.preventDefault();
+        updateTag(true, $('#new-tag-name').val(), {{pk}}, '{{ csrf_token }}', "{% url 'update tag' %}" );
+        console.log($('#new-tag-name').val());
+    });
+
     function toggle_options() {
         $('#repeat-options').toggle(this.value != 'NR');
     };
@@ -34,30 +40,14 @@ $(document).ready(function(){
             $('#delete').submit();
         }
     });
+
     $('.tag-button').click(function() {
         if ($(this).hasClass('btn-primary')) {
-            data_dict = {remove_tag: $(this).text(),
-                         task_id: {{pk}},
-                         csrfmiddlewaretoken: '{{ csrf_token }}'
-                         };
-            console.log("value to send is ", $(this).text());
+            add_tag = false;
         } else {
-            data_dict = {add_tag: $(this).text(),
-                         task_id: {{pk}},
-                         csrfmiddlewaretoken: '{{ csrf_token }}'
-                         };
-            console.log("value to send is ", $(this).text());
+            add_tag = true;
         };
-        $.ajax({
-            url: '{% url 'update tag' %}',
-            method: 'POST',
-            data: data_dict
-        }).done(function(json) {
-            element_id = '#tag-' + json.tag_name
-            $(element_id).toggleClass('btn-primary btn-default');
-        }).fail(function(errorinfo) {
-            console.log(errorinfo);
-        });
+        updateTag(add_tag, $(this).text(), {{pk}}, '{{ csrf_token }}', "{% url 'update tag' %}", $(this).attr('id'));
     });
 });
 </script>
@@ -66,7 +56,7 @@ $(document).ready(function(){
     {% for tag in user_tags %}
         <button class="tag-button btn
                 {% if tag in task_tags %}btn-primary{% else %}btn-default{% endif %}"
-                id="tag-{{tag}}">{{tag}}</button>
+                id="tag-{{tag|slugify|escape}}">{{tag}}</button>
     {% endfor %}
 </div>
 

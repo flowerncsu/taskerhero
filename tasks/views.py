@@ -231,8 +231,39 @@ def delete(request):
             task.delete()
     return redirect('all tasks')
 
+def manage_tags(request):
+    all_tags = Tag.objects.filter(task_id__user=request.user)
+    all_tasks = Task.objects.filter(user=request.user)
+
+    # Get names as a set to remove duplicates
+    tag_names = {tag.tag_name for tag in all_tags}
+
+    # Create a dictionary with a key for each tag
+    tag_dict = {}
+    for tag_name in tag_names:
+        open_list = []
+        completed_list = []
+        tag_dict[tag_name] = (open_list, completed_list)
+
+    # Add tasks to the lists in the dictionary
+    for task in all_tasks:
+        tags = [tag.tag_name for tag in all_tags if tag.task_id == task]
+        if task.completed == False:
+            index = 0
+        else:
+            index = 1
+        for tag in tags:
+            tag_dict[tag][index].append(task)
+
+    userlevel = UserProfile.objects.get(user=request.user).level
+    return render(request, 'tasks/managetags.html', {'tag_dict': tag_dict,
+                                                     'tag_names': tag_names,
+                                                     'username': request.user.username,
+                                                     'userlevel': userlevel,
+                                                     'loggedin': True})
 
 def update_tag(request):
+    # Ajax interface
     if request.method == 'POST':
         if 'task_id' in request.POST:
             if 'add_tag' in request.POST:
