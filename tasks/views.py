@@ -13,10 +13,10 @@ TABLE_BG_COLORS = {0:'#FBF2EF', 1:'#EFF8FB'}
 def repeat_task(task):
     # Ensure that task has a next due date and a repeat days
     # TODO: ensure that repeating tasks are not created without due dates and intervals rather than fixing at the end.
-    if task.next_due_date == None:
-        task.next_due_date = task.create_date + task.repeat_days
     if task.repeat_days == None:
         task.repeat_days = 1
+    if task.next_due_date == None:
+        task.next_due_date = task.create_date + timezone.timedelta(days=task.repeat_days)
 
     # Set new due date according to repeat type
     if task.repeat_type == Task.INTERVAL_AFTER:
